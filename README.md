@@ -24,3 +24,5 @@ Standard 2D flat-plate ceramic solid-state interfaces suffer from low-temperatur
 1. Clone the repository:
    ```bash
    git clone [https://github.com/Abhishek1033ubuntu/3D-NASICON-Optimization.git](https://github.com/Abhishek1033ubuntu/3D-NASICON-Optimization.git)
+   Install dependencies:
+   pip install -r requirements.txt
