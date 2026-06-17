@@ -1,0 +1,60 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+complexities = np.linspace(1.5, 3.0, 20)
+yield_improvement_slope = 0.12            
+
+target_market_price = 110.0
+raw_material_cost = 22.0
+base_capex = 5000000.0
+base_throughput = 100.0
+
+optimization_records = []
+
+for c in complexities:
+    estimated_yield = 0.95 - (c - 1.0) * yield_improvement_slope
+    estimated_yield = np.clip(estimated_yield, 0.50, 0.95)
+    
+    adjusted_capex = base_capex * (1.0 + 0.4 * (c - 1)**2)
+    adjusted_throughput = base_throughput / (1.0 + 0.5 * (c - 1))
+    
+    net_volume_kwh = (adjusted_throughput * 6000 * 0.5) * estimated_yield
+    annual_overhead = (adjusted_capex / 5) + 450000.0
+    
+    cost_per_kwh = raw_material_cost + (annual_overhead / net_volume_kwh)
+    net_profit_per_kwh = target_market_price - cost_per_kwh
+    total_annual_profit = net_volume_kwh * net_profit_per_kwh
+    
+    optimization_records.append({
+        "Zigzag Area Factor": c,
+        "Expected Yield (%)": estimated_yield * 100,
+        "Cost ($/kWh)": cost_per_kwh,
+        "Annual Profit ($)": total_annual_profit
+    })
+
+df_opt = pd.DataFrame(optimization_records)
+best_config = df_opt.loc[df_opt["Annual Profit ($)"].idxmax()]
+
+# Generate the plot
+fig, ax1 = plt.subplots(figsize=(10, 6))
+ax2 = ax1.twinx()
+
+ax1.plot(df_opt["Zigzag Area Factor"], df_opt["Annual Profit ($)"], 'g-', label='Annual Net Profit ($)', linewidth=2.5)
+ax2.plot(df_opt["Zigzag Area Factor"], df_opt["Cost ($/kWh)"], 'b--', label='Production Cost ($/kWh)', alpha=0.7)
+ax1.axvline(x=best_config["Zigzag Area Factor"], color='orange', linestyle=':', 
+            label=f'Optimal Sweet Spot ({best_config["Zigzag Area Factor"]:.2f}x)')
+
+ax1.set_xlabel('Structural Complexity (Zigzag Area Enhancement Factor)')
+ax1.set_ylabel('Annual Net Profit ($)', color='g')
+ax2.set_ylabel('Production Cost ($/kWh)', color='b')
+plt.title("Financial Optimization Frontier: Maximizing Profit vs Geometric Complexity")
+ax1.legend(loc='upper left')
+ax2.legend(loc='upper right')
+ax1.grid(True, alpha=0.3)
+
+# CRITICAL: This line saves the optimization image asset clean and uncorrupted
+plt.savefig('optimization_frontier.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+print(f"Optimal Sweet Spot Factor: {best_config['Zigzag Area Factor']:.2f}x")
