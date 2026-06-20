@@ -9,7 +9,7 @@ Standard 2D flat-plate ceramic solid-state interfaces suffer from low-temperatur
 * **Area-Specific Resistance ($ASR$):** Reduced by **67.6%** ($68.0 \Omega \cdot cm^2$ vs $210.0 \Omega \cdot cm^2$ baseline).
 * **Critical Current Density ($CCD$):** Validated at **$2.6 \text{ mA/cm}^2$** ($3.25\times$ safety margin against dendrites).
 * **Optimal Structural Complexity:** Identfied a geometric sweet spot of **$2.21\times$ Area Enhancement**, balancing cell performance with factory yields to maximize net annual profits.
-* **Production Cost Vector:** Target cost optimized to **$\approx \$74$/kWh**, safely under the $\$110$/kWh commercial target marker.
+* **Production Cost Vector:** Target cost optimized to **approx $74$/kWh**, safely under the $110/kWh commercial target marker.
 
 ## 📁 Repository Structure
 * `/models/01_pybamm_eis_simulation.ipynb`: Time-domain and Frequency-domain (EIS) electrochemical simulation code.
